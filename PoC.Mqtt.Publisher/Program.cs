@@ -18,16 +18,16 @@ var mqttOptions = new MqttClientOptionsBuilder()
 await mqttClient.ConnectAsync(mqttOptions);
 Console.WriteLine("Conectado ao broker MQTT!");
 
-var timer = new System.Timers.Timer(TimeSpan.FromSeconds(1));
+var timer = new System.Timers.Timer(TimeSpan.FromSeconds(3));
 timer.Elapsed += async (s,e) => 
 {
-    var payload = DateTime.Now.ToString(); // Apenas para teste...
+    var payload = e.SignalTime.ToString(); // Apenas para teste...
 
     var message = new MqttApplicationMessageBuilder()
         .WithTopic("planta/area/maquina/temperatura")
         .WithPayload(payload)
         .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.ExactlyOnce)
-        .WithRetainFlag()
+        .WithRetainFlag() // Essa mensagem deve ficar retida no tópico para que quando um cliente conectar ele a receba.
         .Build();
 
     await mqttClient.PublishAsync(message);
