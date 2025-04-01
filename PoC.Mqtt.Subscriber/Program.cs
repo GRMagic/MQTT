@@ -13,8 +13,8 @@ using var mqttClient = mqttFactory.CreateMqttClient();
 
 var mqttOptions = new MqttClientOptionsBuilder()
     .WithTcpServer("localhost")
-    .WithCleanSession(false)        // Mantém a sessão ativa receber mensagens pendentes
-    .WithClientId(clientId)         // Deve ser o mesmo para que o server entenda qual sessão continuar
+    .WithCleanSession(false)        // Mantém a sessão anterior ativa receber mensagens pendentes
+    .WithClientId(clientId)         // Deve ser o mesmo usado na sessão anterior para que o server entenda qual sessão continuar
     .WithSessionExpiryInterval(30)  // Deve ser definido por quanto tempo o server vai manter a sessão antes que ela expire
     .Build();
 
